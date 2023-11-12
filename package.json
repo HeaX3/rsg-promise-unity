@@ -1,6 +1,6 @@
 {
   "name": "com.heax3.rsg-promise-unity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "RSG Promises",
   "description": "Code from Real-Serious-Games/C-Sharp-Promise packaged as a unity package.",
   "unity": "2022.3",

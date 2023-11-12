@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace RSG
 {
@@ -81,26 +82,31 @@ namespace RSG
         /// <summary>
         /// Resolve the returned promise once the time has elapsed
         /// </summary>
+        [HideInCallstack]
         IPromise WaitFor(float seconds);
 
         /// <summary>
         /// Resolve the returned promise once the predicate evaluates to true
         /// </summary>
+        [HideInCallstack]
         IPromise WaitUntil(Func<TimeData, bool> predicate);
 
         /// <summary>
         /// Resolve the returned promise once the predicate evaluates to false
         /// </summary>
+        [HideInCallstack]
         IPromise WaitWhile(Func<TimeData, bool> predicate);
 
         /// <summary>
         /// Update all pending promises. Must be called for the promises to progress and resolve at all.
         /// </summary>
+        [HideInCallstack]
         void Update(float deltaTime);
 
         /// <summary>
         /// Cancel a waiting promise and reject it immediately.
         /// </summary>
+        [HideInCallstack]
         bool Cancel(IPromise promise);
     }
 
@@ -124,6 +130,7 @@ namespace RSG
         /// <summary>
         /// Resolve the returned promise once the time has elapsed
         /// </summary>
+        [HideInCallstack]
         public IPromise WaitFor(float seconds)
         {
             return WaitUntil(t => t.elapsedTime >= seconds);
@@ -132,6 +139,7 @@ namespace RSG
         /// <summary>
         /// Resolve the returned promise once the predicate evaluates to false
         /// </summary>
+        [HideInCallstack]
         public IPromise WaitWhile(Func<TimeData, bool> predicate)
         {
             return WaitUntil(t => !predicate(t));
@@ -140,6 +148,7 @@ namespace RSG
         /// <summary>
         /// Resolve the returned promise once the predicate evalutes to true
         /// </summary>
+        [HideInCallstack]
         public IPromise WaitUntil(Func<TimeData, bool> predicate)
         {
             var promise = new Promise();
@@ -158,6 +167,7 @@ namespace RSG
             return promise;
         }
 
+        [HideInCallstack]
         public bool Cancel(IPromise promise)
         {
             var node = FindInWaiting(promise);
@@ -173,6 +183,7 @@ namespace RSG
             return true;
         }
 
+        [HideInCallstack]
         LinkedListNode<PredicateWait> FindInWaiting(IPromise promise)
         {
             for (var node = waiting.First; node != null; node = node.Next)
@@ -189,6 +200,7 @@ namespace RSG
         /// <summary>
         /// Update all pending promises. Must be called for the promises to progress and resolve at all.
         /// </summary>
+        [HideInCallstack]
         public void Update(float deltaTime)
         {
             curTime += deltaTime;
@@ -234,6 +246,7 @@ namespace RSG
         /// <summary>
         /// Removes the provided node and returns the next node in the list.
         /// </summary>
+        [HideInCallstack]
         private LinkedListNode<PredicateWait> RemoveNode(LinkedListNode<PredicateWait> node)
         {
             var currentNode = node;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RSG.Exceptions;
+using UnityEngine;
 
 namespace RSG
 {
@@ -21,6 +22,7 @@ namespace RSG
         /// <summary>
         /// Set the name of the promise, useful for debugging.
         /// </summary>
+        [HideInCallstack]
         IPromise WithName(string name);
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace RSG
         /// onResolved is called on successful completion.
         /// onRejected is called on error.
         /// </summary>
+        [HideInCallstack]
         void Done(Action onResolved, Action<Exception> onRejected);
 
         /// <summary>
@@ -35,65 +38,77 @@ namespace RSG
         /// onResolved is called on successful completion.
         /// Adds a default error handler.
         /// </summary>
+        [HideInCallstack]
         void Done(Action onResolved);
 
         /// <summary>
         /// Complete the promise. Adds a default error handler.
         /// </summary>
+        [HideInCallstack]
         void Done();
 
         /// <summary>
         /// Handle errors for the promise. 
         /// </summary>
+        [HideInCallstack]
         IPromise Catch(Action<Exception> onRejected);
 
         /// <summary>
         /// Add a resolved callback that chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         IPromise<ConvertedT> Then<ConvertedT>(Func<IPromise<ConvertedT>> onResolved);
 
         /// <summary>
         /// Add a resolved callback that chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Func<IPromise> onResolved);
 
         /// <summary>
         /// Add a resolved callback.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Action onResolved);
 
         /// <summary>
         /// Add a resolved callback and a rejected callback.
         /// The resolved callback chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         IPromise<ConvertedT> Then<ConvertedT>(Func<IPromise<ConvertedT>> onResolved, Func<Exception, IPromise<ConvertedT>> onRejected);
 
         /// <summary>
         /// Add a resolved callback and a rejected callback.
         /// The resolved callback chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Func<IPromise> onResolved, Action<Exception> onRejected);
 
         /// <summary>
         /// Add a resolved callback and a rejected callback.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Action onResolved, Action<Exception> onRejected);
 
         /// <summary>
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// The resolved callback chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         IPromise<ConvertedT> Then<ConvertedT>(Func<IPromise<ConvertedT>> onResolved, Func<Exception, IPromise<ConvertedT>> onRejected, Action<float> onProgress);
 
         /// <summary>
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// The resolved callback chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Func<IPromise> onResolved, Action<Exception> onRejected, Action<float> onProgress);
 
         /// <summary>
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// </summary>
+        [HideInCallstack]
         IPromise Then(Action onResolved, Action<Exception> onRejected, Action<float> onProgress);
 
         /// <summary>
@@ -101,6 +116,7 @@ namespace RSG
         /// The resulting promise is resolved when all of the promises have resolved.
         /// It is rejected as soon as any of the promises have been rejected.
         /// </summary>
+        [HideInCallstack]
         IPromise ThenAll(Func<IEnumerable<IPromise>> chain);
 
         /// <summary>
@@ -109,6 +125,7 @@ namespace RSG
         /// The resulting promise is resolved when all of the promises have resolved.
         /// It is rejected as soon as any of the promises have been rejected.
         /// </summary>
+        [HideInCallstack]
         IPromise<IEnumerable<ConvertedT>> ThenAll<ConvertedT>(Func<IEnumerable<IPromise<ConvertedT>>> chain);
 
         /// <summary>
@@ -117,12 +134,14 @@ namespace RSG
         /// Each function will be called and each promise resolved in turn.
         /// The resulting promise is resolved after each promise is resolved in sequence.
         /// </summary>
+        [HideInCallstack]
         IPromise ThenSequence(Func<IEnumerable<Func<IPromise>>> chain);
 
         /// <summary>
         /// Takes a function that yields an enumerable of promises.
         /// Returns a promise that resolves when the first of the promises has resolved.
         /// </summary>
+        [HideInCallstack]
         IPromise ThenRace(Func<IEnumerable<IPromise>> chain);
 
         /// <summary>
@@ -130,6 +149,7 @@ namespace RSG
         /// Converts to a value promise.
         /// Returns a promise that resolves when the first of the promises has resolved.
         /// </summary>
+        [HideInCallstack]
         IPromise<ConvertedT> ThenRace<ConvertedT>(Func<IEnumerable<IPromise<ConvertedT>>> chain);
 
         /// <summary> 
@@ -137,6 +157,7 @@ namespace RSG
         /// Finally callbacks will always be called, even if any preceding promise is rejected, or encounters an error.
         /// The returned promise will be resolved or rejected, as per the preceding promise.
         /// </summary> 
+        [HideInCallstack]
         IPromise Finally(Action onComplete);
 
         /// <summary>
@@ -144,6 +165,7 @@ namespace RSG
         /// ContinueWith callbacks will always be called, even if any preceding promise is rejected, or encounters an error.
         /// The state of the returning promise will be based on the new non-value promise, not the preceding (rejected or resolved) promise.
         /// </summary>
+        [HideInCallstack]
         IPromise ContinueWith(Func<IPromise> onResolved);
 
         /// <summary> 
@@ -151,6 +173,7 @@ namespace RSG
         /// ContinueWith callbacks will always be called, even if any preceding promise is rejected, or encounters an error.
         /// The state of the returning promise will be based on the new value promise, not the preceding (rejected or resolved) promise.
         /// </summary> 
+        [HideInCallstack]
         IPromise<ConvertedT> ContinueWith<ConvertedT>(Func<IPromise<ConvertedT>> onComplete);
 
         /// <summary>
@@ -158,6 +181,7 @@ namespace RSG
         /// Progress callbacks will be called whenever the promise owner reports progress towards the resolution
         /// of the promise.
         /// </summary>
+        [HideInCallstack]
         IPromise Progress(Action<float> onProgress);
     }
 
@@ -174,11 +198,13 @@ namespace RSG
         /// <summary>
         /// Resolve the promise with a particular value.
         /// </summary>
+        [HideInCallstack]
         void Resolve();
 
         /// <summary>
         /// Report progress in a promise.
         /// </summary>
+        [HideInCallstack]
         void ReportProgress(float progress);
     }
 
@@ -373,6 +399,7 @@ namespace RSG
         /// <summary>
         /// Increments the ID counter and gives us the ID for the next promise.
         /// </summary>
+        [HideInCallstack]
         internal static int NextId()
         {
             return ++nextPromiseId;
@@ -381,6 +408,7 @@ namespace RSG
         /// <summary>
         /// Add a rejection handler for this promise.
         /// </summary>
+        [HideInCallstack]
         private void AddRejectHandler(Action<Exception> onRejected, IRejectable rejectable)
         {
             if (rejectHandlers == null)
@@ -398,6 +426,7 @@ namespace RSG
         /// <summary>
         /// Add a resolve handler for this promise.
         /// </summary>
+        [HideInCallstack]
         private void AddResolveHandler(Action onResolved, IRejectable rejectable)
         {
             if (resolveHandlers == null)
@@ -415,6 +444,7 @@ namespace RSG
         /// <summary>
         /// Add a progress handler for this promise.
         /// </summary>
+        [HideInCallstack]
         private void AddProgressHandler(Action<float> onProgress, IRejectable rejectable)
         {
             if (progressHandlers == null)
@@ -428,6 +458,7 @@ namespace RSG
         /// <summary>
         /// Invoke a single error handler.
         /// </summary>
+        [HideInCallstack]
         private void InvokeRejectHandler(Action<Exception> callback, IRejectable rejectable, Exception value)
         {
 //            Argument.NotNull(() => callback);
@@ -446,6 +477,7 @@ namespace RSG
         /// <summary>
         /// Invoke a single resolve handler.
         /// </summary>
+        [HideInCallstack]
         private void InvokeResolveHandler(Action callback, IRejectable rejectable)
         {
 //            Argument.NotNull(() => callback);
@@ -464,6 +496,7 @@ namespace RSG
         /// <summary>
         /// Invoke a single progress handler.
         /// </summary>
+        [HideInCallstack]
         private void InvokeProgressHandler(Action<float> callback, IRejectable rejectable, float progress)
         {
 //            Argument.NotNull(() => callback);
@@ -482,6 +515,7 @@ namespace RSG
         /// <summary>
         /// Helper function clear out all handlers after resolution or rejection.
         /// </summary>
+        [HideInCallstack]
         private void ClearHandlers()
         {
             rejectHandlers = null;
@@ -492,6 +526,7 @@ namespace RSG
         /// <summary>
         /// Invoke all reject handlers.
         /// </summary>
+        [HideInCallstack]
         private void InvokeRejectHandlers(Exception ex)
         {
 //            Argument.NotNull(() => ex);
@@ -507,6 +542,7 @@ namespace RSG
         /// <summary>
         /// Invoke all resolve handlers.
         /// </summary>
+        [HideInCallstack]
         private void InvokeResolveHandlers()
         {
             if (resolveHandlers != null)
@@ -520,6 +556,7 @@ namespace RSG
         /// <summary>
         /// Invoke all progress handlers.
         /// </summary>
+        [HideInCallstack]
         private void InvokeProgressHandlers(float progress)
         {
             if (progressHandlers != null)
@@ -531,6 +568,7 @@ namespace RSG
         /// <summary>
         /// Reject the promise with an exception.
         /// </summary>
+        [HideInCallstack]
         public void Reject(Exception ex)
         {
 //            Argument.NotNull(() => ex);
@@ -559,6 +597,7 @@ namespace RSG
         /// <summary>
         /// Resolve the promise with a particular value.
         /// </summary>
+        [HideInCallstack]
         public void Resolve()
         {
             if (CurState != PromiseState.Pending)
@@ -584,6 +623,7 @@ namespace RSG
         /// <summary>
         /// Report progress on the promise.
         /// </summary>
+        [HideInCallstack]
         public void ReportProgress(float progress)
         {
             if (CurState != PromiseState.Pending)
@@ -604,6 +644,7 @@ namespace RSG
         /// onResolved is called on successful completion.
         /// onRejected is called on error.
         /// </summary>
+        [HideInCallstack]
         public void Done(Action onResolved, Action<Exception> onRejected)
         {
             Then(onResolved, onRejected)
@@ -617,6 +658,7 @@ namespace RSG
         /// onResolved is called on successful completion.
         /// Adds a default error handler.
         /// </summary>
+        [HideInCallstack]
         public void Done(Action onResolved)
         {
             Then(onResolved)
@@ -628,6 +670,7 @@ namespace RSG
         /// <summary>
         /// Complete the promise. Adds a defualt error handler.
         /// </summary>
+        [HideInCallstack]
         public void Done()
         {
             Catch(ex => PropagateUnhandledException(this, ex));
@@ -636,6 +679,7 @@ namespace RSG
         /// <summary>
         /// Set the name of the promise, useful for debugging.
         /// </summary>
+        [HideInCallstack]
         public IPromise WithName(string name)
         {
             this.Name = name;
@@ -645,6 +689,7 @@ namespace RSG
         /// <summary>
         /// Handle errors for the promise. 
         /// </summary>
+        [HideInCallstack]
         public IPromise Catch(Action<Exception> onRejected)
         {
 //            Argument.NotNull(() => onRejected);
@@ -676,6 +721,7 @@ namespace RSG
         /// <summary>
         /// Add a resolved callback that chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         public IPromise<ConvertedT> Then<ConvertedT>(Func<IPromise<ConvertedT>> onResolved)
         {
             return Then(onResolved, null, null);
@@ -684,6 +730,7 @@ namespace RSG
         /// <summary>
         /// Add a resolved callback that chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Func<IPromise> onResolved)
         {
             return Then(onResolved, null, null);
@@ -692,6 +739,7 @@ namespace RSG
         /// <summary>
         /// Add a resolved callback.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Action onResolved)
         {
             return Then(onResolved, null, null);
@@ -701,6 +749,7 @@ namespace RSG
         /// Add a resolved callback and a rejected callback.
         /// The resolved callback chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         public IPromise<ConvertedT> Then<ConvertedT>(Func<IPromise<ConvertedT>> onResolved, Func<Exception, IPromise<ConvertedT>> onRejected)
         {
             return Then(onResolved, onRejected, null);
@@ -710,6 +759,7 @@ namespace RSG
         /// Add a resolved callback and a rejected callback.
         /// The resolved callback chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Func<IPromise> onResolved, Action<Exception> onRejected)
         {
             return Then(onResolved, onRejected, null);
@@ -718,6 +768,7 @@ namespace RSG
         /// <summary>
         /// Add a resolved callback and a rejected callback.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Action onResolved, Action<Exception> onRejected)
         {
             return Then(onResolved, onRejected, null);
@@ -727,6 +778,7 @@ namespace RSG
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// The resolved callback chains a value promise (optionally converting to a different value type).
         /// </summary>
+        [HideInCallstack]
         public IPromise<ConvertedT> Then<ConvertedT>(
             Func<IPromise<ConvertedT>> onResolved,
             Func<Exception, IPromise<ConvertedT>> onRejected,
@@ -785,6 +837,7 @@ namespace RSG
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// The resolved callback chains a non-value promise.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Func<IPromise> onResolved, Action<Exception> onRejected, Action<float> onProgress)
         {
             var resultPromise = new Promise();
@@ -829,6 +882,7 @@ namespace RSG
         /// <summary>
         /// Add a resolved callback, a rejected callback and a progress callback.
         /// </summary>
+        [HideInCallstack]
         public IPromise Then(Action onResolved, Action<Exception> onRejected, Action<float> onProgress)
         {
             var resultPromise = new Promise();
@@ -868,6 +922,7 @@ namespace RSG
         /// <summary>
         /// Helper function to invoke or register resolve/reject handlers.
         /// </summary>
+        [HideInCallstack]
         private void ActionHandlers(IRejectable resultPromise, Action resolveHandler, Action<Exception> rejectHandler)
         {
             if (CurState == PromiseState.Resolved)
@@ -888,6 +943,7 @@ namespace RSG
         /// <summary>
         /// Helper function to invoke or register progress handlers.
         /// </summary>
+        [HideInCallstack]
         private void ProgressHandlers(IRejectable resultPromise, Action<float> progressHandler)
         {
             if (CurState == PromiseState.Pending)
@@ -901,6 +957,7 @@ namespace RSG
         /// The resulting promise is resolved when all of the promises have resolved.
         /// It is rejected as soon as any of the promises have been rejected.
         /// </summary>
+        [HideInCallstack]
         public IPromise ThenAll(Func<IEnumerable<IPromise>> chain)
         {
             return Then(() => All(chain()));
@@ -912,6 +969,7 @@ namespace RSG
         /// The resulting promise is resolved when all of the promises have resolved.
         /// It is rejected as soon as any of the promises have been rejected.
         /// </summary>
+        [HideInCallstack]
         public IPromise<IEnumerable<ConvertedT>> ThenAll<ConvertedT>(Func<IEnumerable<IPromise<ConvertedT>>> chain)
         {
             return Then(() => Promise<ConvertedT>.All(chain()));
@@ -921,6 +979,7 @@ namespace RSG
         /// Returns a promise that resolves when all of the promises in the enumerable argument have resolved.
         /// Returns a promise of a collection of the resolved results.
         /// </summary>
+        [HideInCallstack]
         public static IPromise All(params IPromise[] promises)
         {
             return All((IEnumerable<IPromise>)promises); // Cast is required to force use of the other All function.
@@ -930,6 +989,7 @@ namespace RSG
         /// Returns a promise that resolves when all of the promises in the enumerable argument have resolved.
         /// Returns a promise of a collection of the resolved results.
         /// </summary>
+        [HideInCallstack]
         public static IPromise All(IEnumerable<IPromise> promises)
         {
             var promisesArray = promises.ToArray();
@@ -985,6 +1045,7 @@ namespace RSG
         /// Each function will be called and each promise resolved in turn.
         /// The resulting promise is resolved after each promise is resolved in sequence.
         /// </summary>
+        [HideInCallstack]
         public IPromise ThenSequence(Func<IEnumerable<Func<IPromise>>> chain)
         {
             return Then(() => Sequence(chain()));
@@ -994,6 +1055,7 @@ namespace RSG
         /// Chain a number of operations using promises.
         /// Takes a number of functions each of which starts an async operation and yields a promise.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Sequence(params Func<IPromise>[] fns)
         {
             return Sequence((IEnumerable<Func<IPromise>>)fns);
@@ -1003,6 +1065,7 @@ namespace RSG
         /// Chain a sequence of operations using promises.
         /// Takes a collection of functions each of which starts an async operation and yields a promise.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Sequence(IEnumerable<Func<IPromise>> fns)
         {
             var promise = new Promise();
@@ -1041,6 +1104,7 @@ namespace RSG
         /// Takes a function that yields an enumerable of promises.
         /// Returns a promise that resolves when the first of the promises has resolved.
         /// </summary>
+        [HideInCallstack]
         public IPromise ThenRace(Func<IEnumerable<IPromise>> chain)
         {
             return Then(() => Race(chain()));
@@ -1051,6 +1115,7 @@ namespace RSG
         /// Converts to a value promise.
         /// Returns a promise that resolves when the first of the promises has resolved.
         /// </summary>
+        [HideInCallstack]
         public IPromise<ConvertedT> ThenRace<ConvertedT>(Func<IEnumerable<IPromise<ConvertedT>>> chain)
         {
             return Then(() => Promise<ConvertedT>.Race(chain()));
@@ -1060,6 +1125,7 @@ namespace RSG
         /// Returns a promise that resolves when the first of the promises in the enumerable argument have resolved.
         /// Returns the value from the first promise that has resolved.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Race(params IPromise[] promises)
         {
             return Race((IEnumerable<IPromise>)promises); // Cast is required to force use of the other function.
@@ -1069,6 +1135,7 @@ namespace RSG
         /// Returns a promise that resolves when the first of the promises in the enumerable argument have resolved.
         /// Returns the value from the first promise that has resolved.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Race(IEnumerable<IPromise> promises)
         {
             var promisesArray = promises.ToArray();
@@ -1114,6 +1181,7 @@ namespace RSG
         /// <summary>
         /// Convert a simple value directly into a resolved promise.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Resolved()
         {
             var promise = new Promise();
@@ -1124,6 +1192,7 @@ namespace RSG
         /// <summary>
         /// Convert an exception directly into a rejected promise.
         /// </summary>
+        [HideInCallstack]
         public static IPromise Rejected(Exception ex)
         {
 //            Argument.NotNull(() => ex);
@@ -1133,6 +1202,7 @@ namespace RSG
             return promise;
         }
 
+        [HideInCallstack]
         public IPromise Finally(Action onComplete)
         {
             var promise = new Promise();
@@ -1151,6 +1221,7 @@ namespace RSG
             return promise.Then(onComplete);
         }
 
+        [HideInCallstack]
         public IPromise ContinueWith(Func<IPromise> onComplete)
         {
             var promise = new Promise();
@@ -1162,6 +1233,7 @@ namespace RSG
             return promise.Then(onComplete);
         }
 
+        [HideInCallstack]
         public IPromise<ConvertedT> ContinueWith<ConvertedT>(Func<IPromise<ConvertedT>> onComplete)
         {
             var promise = new Promise();
@@ -1173,6 +1245,7 @@ namespace RSG
             return promise.Then(onComplete);
         }
 
+        [HideInCallstack]
         public IPromise Progress(Action<float> onProgress)
         {
             if (onProgress != null)
@@ -1185,6 +1258,7 @@ namespace RSG
         /// <summary>
         /// Raises the UnhandledException event.
         /// </summary>
+        [HideInCallstack]
         internal static void PropagateUnhandledException(object sender, Exception ex)
         {
             if (unhandlerException != null)
